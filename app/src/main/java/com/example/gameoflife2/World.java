@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
+
 public class World {
     public static final Random RANDOM = new Random();
     public int width,height;
     private Cell[][] board;
+    public MainActivity main;
+
 
     public World(int width, int height) {
         this.width = width;
@@ -16,6 +20,7 @@ public class World {
         init();
     }
 
+
     private void init() {
         for(int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -23,9 +28,17 @@ public class World {
             }
         }
     }
+    public void clear(){
+        for(int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                board[i][j] = new Cell(i, j, false);
+            }
+        }
+    }
 
     public Cell get(int i, int j) {
         return board[i][j];
+
     }
 
     public int nbNeighboursOf(int i, int j) {
@@ -54,13 +67,13 @@ public class World {
                 Cell cell = board[i][j];
                 int nbNeighbours = nbNeighboursOf(cell.x, cell.y);
 
-                // rule 1 & rule 3
+                // правило 1 & правило 2
                 if (cell.alive &&
                         (nbNeighbours < 2 || nbNeighbours > 3)) {
                     deadCells.add(cell);
                 }
 
-                // rule 2 & rule 4
+                // правило 3 & правило 4
                 if ((cell.alive && (nbNeighbours == 3 || nbNeighbours == 2))
                         ||
                         (!cell.alive && nbNeighbours == 3)) {
@@ -69,7 +82,7 @@ public class World {
             }
         }
 
-        // update future live and dead cells
+        // обновляет  будущие живые и мертвые клетки
         for (Cell cell : liveCells) {
             cell.reborn();
         }

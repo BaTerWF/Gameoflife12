@@ -6,9 +6,57 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.gameoflife2.GameOfLifeView
-        android:id="@+id/gameOfLife"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <Button
+        android:id="@+id/stopB"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="monospace"
+        android:onClick="clickPause"
+        android:text="pause"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="OnClick" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/startB"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="monospace"
+        android:onClick="clickStart"
+        android:text="play"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="OnClick" />
+
+    <Button
+        android:id="@+id/restBut"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:backgroundTint="@color/white"
+        android:onClick="clickReset"
+        android:text="↺"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<com.example.gameoflife2.GameOfLifeView
+    android:id="@+id/gameOfLife"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Game of life 2</string>
+    <string name="play">play</string>
 </resources>

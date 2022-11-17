@@ -10,28 +10,37 @@ import android.util.AttributeSet;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
+
+
 
 public class GameOfLifeView extends SurfaceView implements Runnable {
 
-    // Default size of a cell
-    public static final int DEFAULT_SIZE = 50;
-    // Default color of an alive color (white in our case)
+    // Размер ячейки по умолчанию
+    public static  int DEFAULT_SIZE = 10;
+    // Цвет по умолчанию живого цвета (в нашем случае белый)
     public static final int DEFAULT_ALIVE_COLOR = Color.WHITE;
-    // Default color of a dead color (black in our case)
+    // Цвет по умолчанию мертвого цвета (в нашем случае черный)
     public static final int DEFAULT_DEAD_COLOR = Color.BLACK;
-    // Thread which will be responsible to manage the evolution of the World
-    private Thread thread;
-    // Boolean indicating if the World is evolving or not
-    private boolean isRunning = false;
+    // Поток, который будет отвечать за управление эволюцией Мира
+    private  Thread thread;
+    // Логическое значение, указывающее, развивается мир или нет.
+    public  boolean isRunning = false;
     private int columnWidth = 1;
     private int rowHeight = 1;
     private int nbColumns = 1;
     private int nbRows = 1;
     private World world;
-    // Utilitaries objects : a Rectangle instance and a Paint instance used to draw the elements
+
+
+
+
+    // Вспомогательные объекты: экземпляр Rectangle и экземпляр Paint, используемые для рисования элементов.
     private Rect r = new Rect();
     private Paint p = new Paint();
+
+
 
     public GameOfLifeView(Context context) {
         super(context);
@@ -45,14 +54,14 @@ public class GameOfLifeView extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
-        // while the world is evolving
+        // пока мир развивается
         while (isRunning) {
             if (!getHolder().getSurface().isValid())
                 continue;
 
-            // Pause of 300 ms to better visualize the evolution of the world
+            // Пауза 300 мс для лучшей визуализации эволюции мира
             try {
-                Thread.sleep(300);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
             }
 
@@ -60,18 +69,19 @@ public class GameOfLifeView extends SurfaceView implements Runnable {
             world.nextGeneration();
             drawCells(canvas);
             getHolder().unlockCanvasAndPost(canvas);
+
         }
     }
 
     public void start() {
-        // World is evolving
+        // Мир развивается
         isRunning = true;
         thread = new Thread(this);
-        // we start the Thread for the World's evolution
+        // мы начинаем Нить для эволюции Мира
         thread.start();
     }
 
-    public void stop() {
+    public  void stop() {
         isRunning = false;
 
         while (true) {
@@ -84,21 +94,23 @@ public class GameOfLifeView extends SurfaceView implements Runnable {
 
     }
 
+
+
     private void initWorld() {
         WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point point = new Point();
         display.getSize(point);
-        // we calculate the number of columns and rows for our World
+        // вычисляем количество столбцов и строк для нашего Мира
         nbColumns = point.x / DEFAULT_SIZE;
         nbRows = point.y / DEFAULT_SIZE;
-        // we calculate the column width and row height
+        // вычисляем ширину столбца и высоту строки
         columnWidth = point.x / nbColumns;
         rowHeight = point.y / nbRows;
         world = new World(nbColumns, nbRows);
     }
 
-    // Method to draw each cell of the world on the canvas
+    // Метод рисования каждой клетки мира на холсте
     private void drawCells(Canvas canvas) {
         for (int i = 0; i < nbColumns; i++) {
             for (int j = 0; j < nbRows; j++) {
@@ -113,16 +125,17 @@ public class GameOfLifeView extends SurfaceView implements Runnable {
         }
     }
 
-    // We let the user to interact with the Cells of the World
+
+    // Мы позволяем пользователю взаимодействовать с Ячейками Мира
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            // we get the coordinates of the touch and we convert it in coordinates for the board
+            //мы получаем координаты касания и преобразуем их в координаты для доски
             int i = (int) (event.getX() / columnWidth);
             int j = (int) (event.getY() / rowHeight);
-            // we get the cell associated to these positions
+            // мы получаем ячейку, связанную с этими позициями
             Cell cell = world.get(i, j);
-            // we call the invert method of the cell got to change its state
+            // мы вызываем метод инвертирования ячейки, чтобы изменить ее состояние
             cell.invert();
             invalidate();
         }
